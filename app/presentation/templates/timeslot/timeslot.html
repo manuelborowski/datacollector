@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="content-section">
+    <div class="center">
+        <div class="container">
+                <div id="timeslot-settings"></div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var data = {{ data | tojson }}
+    </script>
+    <script type="module"> {% include "timeslot/timeslot.js" %}</script>
+{% endblock %}

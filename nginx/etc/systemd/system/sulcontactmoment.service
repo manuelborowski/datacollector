@@ -1,0 +1,13 @@
+[Unit]
+Description=instance to serve sulcontactmoment
+After=network.target
+
+[Service]
+User=aboro
+Group=www-data
+WorkingDirectory=/home/aboro/projects/sulcontactmoment
+Environment="PATH=/home/aboro/projects/sulcontactmoment/venv/bin"
+ExecStart=/home/aboro/projects/sulcontactmoment/venv/bin/python run.py
+
+[Install]
+WantedBy=multi-user.target

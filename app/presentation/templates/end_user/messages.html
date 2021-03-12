@@ -1,0 +1,56 @@
+{% extends "end_user/base.html" %}
+
+{% block body %}
+    <div class="content-section">
+        <div class="center">
+            <div class="container">
+                <br>
+                <br>
+                {% if type =='error' %}
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Foutmelding!</h4>
+                        <h5>Er is een fout opgetreden</h5>
+                        <hr>
+                        {% if info %}
+                            <h5>Bijkomende informatie: </h5>
+                            {{ info }}
+                            <hr>
+                        {% endif %}
+                        <p>Gelieve een bericht te sturen naar <a href="mailto:manuel.borowski@campussintursula.be">manuel.borowski@campussintursula.be</a>
+                        </p>
+                    </div>
+                {% endif %}
+
+                {% if type =='could-not-register' %}
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Foutmelding!</h4>
+                        <h5>U kan geen reservatie aanmaken</h5>
+                        <hr>
+                        {% if info %}
+                            <h5>Bijkomende informatie: </h5>
+                            {{ info }}
+                            <hr>
+                        {% endif %}
+                        <p>Gelieve een bericht te sturen naar <a href="mailto:manuel.borowski@campussintursula.be">manuel.borowski@campussintursula.be</a>
+                        </p>
+                    </div>
+                {% endif %}
+
+
+                {% if type =='ok' %}
+                    <div class="alert alert-success" role="alert">
+                        <h5>De reservatie is bewaard.</h5>
+                        <h5>U wordt verwacht op {{ info }}.</h5>
+                        <h5>Er wordt nog een bevestigsbericht met een link voor het Teamsoverleg via Smartschool gestuurd.</h5>
+                    </div>
+                {% endif %}
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+{% endblock %}
