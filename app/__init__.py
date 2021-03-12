@@ -19,7 +19,7 @@ def inject_version():
     return dict(version='V0.1')
 
 #enable logging
-LOG_HANDLE = 'SULCM'
+LOG_HANDLE = 'DC'
 log = logging.getLogger(LOG_HANDLE)
 
 # local imports
@@ -44,7 +44,7 @@ config_name = os.getenv('FLASK_CONFIG')
 config_name = config_name if config_name else 'production'
 
 #set up logging
-LOG_FILENAME = os.path.join(sys.path[0], app_config[config_name].STATIC_PATH, 'log/sulcm-log.txt')
+LOG_FILENAME = os.path.join(sys.path[0], app_config[config_name].STATIC_PATH, 'log/dc-log.txt')
 try:
     log_level = getattr(logging, app_config[config_name].LOG_LEVEL)
 except:
@@ -56,7 +56,7 @@ log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(us
 log_handler.setFormatter(log_formatter)
 log.addHandler(log_handler)
 
-log.info('start SULCM')
+log.info('start Data Collector')
 
 flask_app.config.from_object(app_config[config_name])
 flask_app.config.from_pyfile('config.py')
@@ -84,59 +84,56 @@ message_scheduler.start()
 soap = Client(flask_app.config['SMARTSCHOOL_URL'])
 
 def create_admin():
-    from app.data.models import User
-    find_admin = User.query.filter(User.username == 'admin').first()
-    if not find_admin:
-        admin = User(username='admin', password='admin', level=User.LEVEL.ADMIN, user_type=User.USER_TYPE.LOCAL)
-        db.session.add(admin)
-        db.session.commit()
+    try:
+        from app.data.models import User
+        find_admin = User.query.filter(User.username == 'admin').first()
+        if not find_admin:
+            admin = User(username='admin', password='admin', level=User.LEVEL.ADMIN, user_type=User.USER_TYPE.LOCAL)
+            db.session.add(admin)
+            db.session.commit()
+    except Exception as e:
+        log.warning('database does not exist yet')
 
-if 'db' in sys.argv:
-    from app.data import models
-else:
-    create_admin() # Only once
+create_admin() # Only once
 
-    #decorator to grant access to admins only
-    def admin_required(func):
-        @wraps(func)
-        def decorated_view(*args, **kwargs):
-            if not current_user.is_at_least_admin:
-                abort(403)
-            return func(*args, **kwargs)
-        return decorated_view
+#decorator to grant access to admins only
+def admin_required(func):
+    @wraps(func)
+    def decorated_view(*args, **kwargs):
+        if not current_user.is_at_least_admin:
+            abort(403)
+        return func(*args, **kwargs)
+    return decorated_view
 
 
-    #decorator to grant access to at least supervisors
-    def supervisor_required(func):
-        @wraps(func)
-        def decorated_view(*args, **kwargs):
-            if not current_user.is_at_least_supervisor:
-                abort(403)
-            return func(*args, **kwargs)
-        return decorated_view
+#decorator to grant access to at least supervisors
+def supervisor_required(func):
+    @wraps(func)
+    def decorated_view(*args, **kwargs):
+        if not current_user.is_at_least_supervisor:
+            abort(403)
+        return func(*args, **kwargs)
+    return decorated_view
 
-    from app.presentation.view import auth, user, settings, end_user, timeslot, test, registration
-    flask_app.register_blueprint(auth.auth)
-    flask_app.register_blueprint(user.user)
-    flask_app.register_blueprint(end_user.end_user)
-    flask_app.register_blueprint(settings.settings)
-    flask_app.register_blueprint(timeslot.timeslot)
-    flask_app.register_blueprint(registration.registration)
+from app.presentation.view import auth, user, settings, test
+flask_app.register_blueprint(auth.auth)
+flask_app.register_blueprint(user.user)
+flask_app.register_blueprint(settings.settings)
 
-    @flask_app.errorhandler(403)
-    def forbidden(error):
-        return render_template('errors/403.html', title='Forbidden'), 403
+@flask_app.errorhandler(403)
+def forbidden(error):
+    return render_template('errors/403.html', title='Forbidden'), 403
 
-    @flask_app.errorhandler(404)
-    def page_not_found(error):
-        return render_template('errors/404.html', title='Page Not Found'), 404
+@flask_app.errorhandler(404)
+def page_not_found(error):
+    return render_template('errors/404.html', title='Page Not Found'), 404
 
-    @flask_app.errorhandler(500)
-    def internal_server_error(error):
-        return render_template('errors/500.html', title='Server Error'), 500
+@flask_app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('errors/500.html', title='Server Error'), 500
 
-    @flask_app.route('/500')
-    def error_500():
-        abort(500)
+@flask_app.route('/500')
+def error_500():
+    abort(500)
 
 

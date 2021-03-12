@@ -1,7 +1,7 @@
 from flask import render_template, url_for, request
 from flask_login import login_required
 from app import admin_required
-from app.application import socketio as msocketio, timeslot as mtimeslot
+from app.application import socketio as msocketio
 from . import settings
 from app.application import settings as msettings
 import json
@@ -12,11 +12,9 @@ import json
 @login_required
 def show():
     default_settings = msettings.get_configuration_settings()
-    timeslots = mtimeslot.get_timeslots()
     data = {
         'default': default_settings,
         'template': settings_formio,
-        'timeslots': timeslots,
     }
     return render_template('/settings/settings.html', data=data)
 

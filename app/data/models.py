@@ -39,7 +39,7 @@ class User(UserMixin, db.Model):
         SUPERVISOR = 3
         ADMIN = 5
 
-        ls = ["GEBRUIKER", "SECRETARIAAT", "ADMINISTRATOR"]
+        ls = ["GEBRUIKER", "GEBRUIKER+", "ADMINISTRATOR"]
 
         @staticmethod
         def i2s(i):
@@ -140,52 +140,26 @@ class Settings(db.Model):
         return '<Setting: {}/{}/{}/{}>'.format(self.id, self.name, self.value, self.type)
 
 
-class Registration(db.Model):
-    __tablename__ = 'registrations'
+class Teacher(db.Model):
+    __tablename__ = 'teachers'
+
+    SS_FLAG_ALL_1_MASK =       (1 << 16) - 1
+
+    SS_TEACHER_FLAG =           1 << 0 # this is an original teacher
+    SS_SUB_TEACHER_FLAG =       1 << 1 # this is a substitute teacher
+    SS_INTERN_TEACHER_FLAG =    1 << 2 # this is an intern teacher
 
     id = db.Column(db.Integer(), primary_key=True)
-    timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
-    timeslot_id = db.Column(db.Integer, db.ForeignKey('timeslots.id', ondelete='CASCADE'))
+    full_name = db.Column(db.String(256))
+    user_name = db.Column(db.String(256))
+    badge_code = db.Column(db.String(256))
 
-    student_id = db.Column(db.String(256))
+    smartschool_flags = db.Column(db.Integer(), default=0)
+
+    enabled = db.Column(db.Boolean, default=False)
+
     data = db.Column(db.Text)
-
-    ack_sent = db.Column(db.Boolean, default=False)
-    ack_send_retry = db.Column(db.Integer(), default=0)
-    enabled = db.Column(db.Boolean, default=True)
-
-    def full_name(self):
-        return f'{self.first_name} {self.last_name}'
-
-    def ret_flat(self):
-        return {
-            'data': self.data,
-        }
-
-    def ret_datatable(self):
-        ret = self.timeslot.ret_formio()
-        ret.update({
-            'id': self.id, 'DT_RowId': self.id
-        })
-        return ret
+    timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
 
-class Timeslot(db.Model):
-    __tablename__ = 'timeslots'
-
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime())
-    length = db.Column(db.Integer, default=5)
-    meeting_url = db.Column(db.String(256))
-    enabled = db.Column(db.Boolean, default=True)
-    registrations = db.relationship('Registration', cascade='all, delete', backref='timeslot')
-
-    def ret_formio(self):
-        return {
-            'timeslot-date': self.date,
-            'timeslot-meeting-url': self.meeting_url,
-            'timeslot-enabled': self.enabled,
-            'timeslot-id': self.id,
-            'timeslot-action': 'V'
-        }
 
