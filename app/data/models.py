@@ -154,12 +154,20 @@ class Teacher(db.Model):
     user_name = db.Column(db.String(256))
     badge_code = db.Column(db.String(256))
 
+    smartschool_id = db.Column(db.String(256))
     smartschool_flags = db.Column(db.Integer(), default=0)
 
     enabled = db.Column(db.Boolean, default=False)
 
     data = db.Column(db.Text)
     timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
+
+    def set_smartschool_flag(self, flag):
+        self.smartschool_flags |= flag
+
+    def reset_smartschool_flag(self, flag):
+        self.smartschool_flags &= (Teacher.SS_FLAG_ALL_1_MASK ^ flag)
+
 
 
 

@@ -1,6 +1,4 @@
 var _form = null;
-var timeslot_component = null;
-
 $(document).ready(function () {
     socketio.start(null, null);
     socketio.subscribe_on_receive("settings", socketio_receive_settings);
@@ -13,8 +11,6 @@ $(document).ready(function () {
                 return;
             }
         });
-        timeslot_component = form.getComponent("timeslot-list");
-        timeslot_component.setValue(data.timeslots);
         form.on('submit', function(submission) {
             socketio_transmit_setting('data', JSON.stringify((submission.data)))
         })

@@ -8,15 +8,15 @@ import logging.handlers, os, sys
 from functools import wraps
 from flask_socketio import SocketIO
 from flask_apscheduler import APScheduler
-from zeep import Client
 
 flask_app = Flask(__name__, instance_relative_config=True, template_folder='presentation/templates/')
 
 # V0.1: copy from sulcontactmoment
+# V0.2: smartschool is ok
 
 @flask_app.context_processor
 def inject_version():
-    return dict(version='V0.1')
+    return dict(version='V0.2')
 
 #enable logging
 LOG_HANDLE = 'DC'
@@ -65,7 +65,7 @@ jsglue = JSGlue(flask_app)
 db.app=flask_app  # hack:-(
 db.init_app(flask_app)
 
-socketio = SocketIO(flask_app, async_mode=flask_app.config['SOCKETIO_ASYNC_MODE'], ping_timeout=10, ping_interval=5,
+socketio = SocketIO(flask_app, async_mode=flask_app.config['SOCKETIO_ASYNC_MODE'],
                     cors_allowed_origins=flask_app.config['SOCKETIO_CORS_ALLOWED_ORIGIN'])
 
 flask_app.url_map.converters['int'] = IntegerConverter
@@ -77,11 +77,9 @@ login_manager.login_view = 'auth.login'
 migrate = Migrate(flask_app, db)
 
 SCHEDULER_API_ENABLED = True
-message_scheduler = APScheduler()
-message_scheduler.init_app(flask_app)
-message_scheduler.start()
-
-soap = Client(flask_app.config['SMARTSCHOOL_URL'])
+ap_scheduler = APScheduler()
+ap_scheduler.init_app(flask_app)
+ap_scheduler.start()
 
 def create_admin():
     try:

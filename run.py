@@ -1,5 +1,3 @@
-import os
-
 from app import flask_app, socketio
 
 if __name__ == '__main__':

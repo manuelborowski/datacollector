@@ -55,17 +55,10 @@ def get_test_server():
 
 
 default_configuration_settings = {
-    'register-template': ('', Settings.SETTING_TYPE.E_STRING),
-    'register-message-ack-subject-template': ('', Settings.SETTING_TYPE.E_STRING),
-    'register-message-ack-content-template': ('', Settings.SETTING_TYPE.E_STRING),
-
-    'registration-timeslot-template': ('', Settings.SETTING_TYPE.E_STRING),
-
-    'message-send-max-retries': (2, Settings.SETTING_TYPE.E_INT),
-    'message-task-interval': (10, Settings.SETTING_TYPE.E_INT),
-    'messages-per-minute': (30, Settings.SETTING_TYPE.E_INT),
-    'base-url': ('localhost:5000', Settings.SETTING_TYPE.E_STRING),
-    'enable-send-message': (False, Settings.SETTING_TYPE.E_BOOL),
+    'smartschool-scheduler-cron': ('', Settings.SETTING_TYPE.E_STRING),
+    'smartschool-teacher-group': ('', Settings.SETTING_TYPE.E_STRING),
+    'smartschool-api-url': ('', Settings.SETTING_TYPE.E_STRING),
+    'smartschool-api-key': ('', Settings.SETTING_TYPE.E_STRING),
 }
 
 

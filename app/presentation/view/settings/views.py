@@ -42,17 +42,17 @@ settings_formio = \
             {
                 "label": "Guest",
                 "tableView": false,
-                "key": "guest-container",
+                "key": "settings-container",
                 "type": "container",
                 "input": true,
                 "components": [
                     {
-                        "title": "BEZOEKERS : Registratie en smartschoolbericht template",
+                        "title": "Smartschool",
                         "theme": "primary",
                         "collapsible": true,
                         "key": "RegistratieTemplate1",
                         "type": "panel",
-                        "label": "BEZOEKERS : Registratie template en e-mail",
+                        "label": "Smartschool",
                         "input": false,
                         "tableView": false,
                         "components": [
@@ -66,248 +66,39 @@ settings_formio = \
                                 "input": true
                             },
                             {
-                                "label": "contactmoment registratie template",
-                                "autoExpand": false,
-                                "tableView": true,
-                                "key": "register-template",
-                                "type": "textarea",
-                                "input": true
-                            },
-                            {
-                                "label": "Registratie bevestigingsbericht: onderwerp",
-                                "autoExpand": false,
-                                "tableView": true,
-                                "persistent": false,
-                                "key": "register-message-ack-subject-template",
-                                "type": "textarea",
-                                "input": true
-                            },
-                            {
-                                "label": "Registratie bevestigingsbericht: inhoud",
-                                "autoExpand": false,
-                                "tableView": true,
-                                "persistent": false,
-                                "key": "register-message-ack-content-template",
-                                "type": "textarea",
-                                "input": true
-                            }
-                        ],
-                        "collapsed": true
-                    }
-                ]
-            },
-            {
-                "label": "Timeslots",
-                "tableView": false,
-                "key": "timeslot-container",
-                "type": "container",
-                "input": true,
-                "components": [
-                    {
-                        "title": "Tijdsloten",
-                        "theme": "primary",
-                        "collapsible": true,
-                        "key": "RegistratieTemplate2",
-                        "type": "panel",
-                        "label": "BEZOEKERS : Registratie en smartschoolbericht template",
-                        "input": false,
-                        "tableView": false,
-                        "components": [
-                            {
-                                "label": "Submit",
-                                "showValidations": false,
-                                "theme": "warning",
-                                "tableView": false,
-                                "key": "submit",
-                                "type": "button",
-                                "input": true
-                            },
-                            {
-                                "label": "Tijdslot template",
-                                "autoExpand": false,
-                                "tableView": true,
-                                "key": "registration-timeslot-template",
-                                "type": "textarea",
-                                "input": true
-                            },
-                            {
-                                "label": "Tijdsloten",
-                                "reorder": false,
-                                "addAnotherPosition": "bottom",
-                                "defaultOpen": false,
-                                "layoutFixed": false,
-                                "enableRowGroups": false,
-                                "initEmpty": false,
-                                "tableView": false,
-                                "defaultValue": [
-                                    {}
-                                ],
-                                "key": "timeslot-list",
-                                "type": "datagrid",
-                                "input": true,
-                                "components": [
-                                    {
-                                        "label": "Tijdslot",
-                                        "format": "dd-MM-yyyy HH:mm",
-                                        "tableView": false,
-                                        "enableMinDateInput": false,
-                                        "datePicker": {
-                                            "disableWeekends": false,
-                                            "disableWeekdays": false
-                                        },
-                                        "enableMaxDateInput": false,
-                                        "timePicker": {
-                                            "showMeridian": false,
-                                            "minuteStep": 15
-                                        },
-                                        "persistent": false,
-                                        "key": "timeslot-date",
-                                        "type": "datetime",
-                                        "input": true,
-                                        "widget": {
-                                            "type": "calendar",
-                                            "displayInTimezone": "viewer",
-                                            "locale": "en",
-                                            "useLocaleSettings": false,
-                                            "allowInput": true,
-                                            "mode": "single",
-                                            "enableTime": true,
-                                            "noCalendar": false,
-                                            "format": "dd-MM-yyyy HH:mm",
-                                            "hourIncrement": 1,
-                                            "minuteIncrement": 15,
-                                            "time_24hr": true,
-                                            "minDate": null,
-                                            "disableWeekends": false,
-                                            "disableWeekdays": false,
-                                            "maxDate": null
-                                        }
-                                    },
-                                    {
-                                        "label": "Meeting URL",
-                                        "tableView": true,
-                                        "key": "timeslot-meeting-url",
-                                        "type": "textfield",
-                                        "input": true
-                                    },
-                                    {
-                                        "label": "Actief",
-                                        "tableView": false,
-                                        "key": "timeslot-enabled",
-                                        "type": "checkbox",
-                                        "input": true,
-                                        "defaultValue": false
-                                    },
-                                    {
-                                        "label": "Number",
-                                        "hidden": true,
-                                        "mask": false,
-                                        "spellcheck": true,
-                                        "tableView": false,
-                                        "delimiter": false,
-                                        "requireDecimal": false,
-                                        "inputFormat": "plain",
-                                        "key": "timeslot-id",
-                                        "type": "number",
-                                        "input": true
-                                    },
-                                    {
-                                        "label": "Action",
-                                        "defaultValue": "N",
-                                        "key": "timeslot-action",
-                                        "type": "hidden",
-                                        "input": true,
-                                        "tableView": false
-                                    }
-                                ]
-                            }
-                        ],
-                        "collapsed": true
-                    }
-                ]
-            },
-            {
-                "label": "Smartschool",
-                "tableView": false,
-                "key": "smartschool-container",
-                "type": "container",
-                "input": true,
-                "components": [
-                    {
-                        "title": "Smartschoolbericht server settings",
-                        "theme": "primary",
-                        "collapsible": true,
-                        "key": "eMailServerSettings",
-                        "type": "panel",
-                        "label": "E-mail server settings",
-                        "input": false,
-                        "tableView": false,
-                        "components": [
-                            {
-                                "label": "Submit",
-                                "showValidations": false,
-                                "theme": "warning",
-                                "tableView": false,
-                                "key": "submit",
-                                "type": "button",
-                                "input": true
-                            },
-                            {
-                                "label": "Aantal keer dat een bericht geprobeerd wordt te verzenden",
-                                "labelPosition": "left-left",
-                                "mask": false,
-                                "spellcheck": false,
-                                "tableView": false,
-                                "delimiter": false,
-                                "requireDecimal": false,
-                                "inputFormat": "plain",
-                                "key": "message-send-max-retries",
-                                "type": "number",
-                                "input": true
-                            },
-                            {
-                                "label": "Tijd (seconden) tussen het verzenden van berichten",
-                                "labelPosition": "left-left",
-                                "mask": false,
-                                "spellcheck": true,
-                                "tableView": false,
-                                "persistent": false,
-                                "delimiter": false,
-                                "requireDecimal": false,
-                                "inputFormat": "plain",
-                                "key": "message-task-interval",
-                                "type": "number",
-                                "input": true
-                            },
-                            {
-                                "label": "Max aantal berichten per minuut",
-                                "labelPosition": "left-left",
-                                "mask": false,
-                                "spellcheck": true,
-                                "tableView": false,
-                                "persistent": false,
-                                "delimiter": false,
-                                "requireDecimal": false,
-                                "inputFormat": "plain",
-                                "key": "messages-per-minute",
-                                "type": "number",
-                                "input": true
-                            },
-                            {
-                                "label": "Basis URL",
+                                "label": "When to update database (https://crontab.guru/)",
                                 "labelPosition": "left-left",
                                 "tableView": true,
-                                "key": "base-url",
+                                "persistent": false,
+                                "key": "smartschool-scheduler-cron",
                                 "type": "textfield",
                                 "input": true
                             },
                             {
-                                "label": "Berichten mogen worden verzonden",
-                                "tableView": false,
-                                "defaultValue": false,
+                                "label": "Teacher groupname",
+                                "labelPosition": "left-left",
+                                "tableView": true,
                                 "persistent": false,
-                                "key": "enable-send-message",
-                                "type": "checkbox",
+                                "key": "smartschool-teacher-group",
+                                "type": "textfield",
+                                "input": true
+                            },
+                            {
+                                "label": "WebAPI URL",
+                                "labelPosition": "left-left",
+                                "tableView": true,
+                                "persistent": false,
+                                "key": "smartschool-api-url",
+                                "type": "textfield",
+                                "input": true
+                            },
+                            {
+                                "label": "WebAPI Key",
+                                "labelPosition": "left-left",
+                                "tableView": true,
+                                "persistent": false,
+                                "key": "smartschool-api-key",
+                                "type": "textfield",
                                 "input": true
                             }
                         ],
