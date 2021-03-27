@@ -140,34 +140,73 @@ class Settings(db.Model):
         return '<Setting: {}/{}/{}/{}>'.format(self.id, self.name, self.value, self.type)
 
 
-class Teacher(db.Model):
-    __tablename__ = 'teachers'
+class Person(db.Model):
+    __tablename__ = 'persons'
 
-    SS_FLAG_ALL_1_MASK =       (1 << 16) - 1
+    FLAG_ALL_1_MASK = (1 << 32) - 1
 
-    SS_TEACHER_FLAG =           1 << 0 # this is an original teacher
-    SS_SUB_TEACHER_FLAG =       1 << 1 # this is a substitute teacher
-    SS_INTERN_TEACHER_FLAG =    1 << 2 # this is an intern teacher
+    UPDATED_FLAG =              1 << 0
+    ENABLED_FLAG =              1 << 1 # short term enable/disable of a person
+    ACTIVE_FLAG =               1 << 2 # long term enable/disable of a person
+    IS_TEACHER_FLAG =           1 << 3 # this is an original teacher
+    IS_SUB_TEACHER_FLAG =       1 << 4 # this is a substitute teacher
+    IS_INTERN_TEACHER_FLAG =    1 << 5 # this is an intern teacher
+    IS_DIRECTOR_FLAG =          1 << 6
+    IS_STAFF_FLAG =             1 << 7
+    IS_STUDENT_FLAG =           1 << 8
 
     id = db.Column(db.Integer(), primary_key=True)
     full_name = db.Column(db.String(256))
-    user_name = db.Column(db.String(256))
-    badge_code = db.Column(db.String(256))
 
-    smartschool_id = db.Column(db.String(256))
-    smartschool_flags = db.Column(db.Integer(), default=0)
+    ad_user_name = db.Column(db.String(256))
 
-    enabled = db.Column(db.Boolean, default=False)
+    rfid_code = db.Column(db.String(256))
+
+    ss_user_name = db.Column(db.String(256))
+    ss_internal_nbr = db.Column(db.String(256))
+
+    flags = db.Column(db.Integer(), default=0)
 
     data = db.Column(db.Text)
     timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
-    def set_smartschool_flag(self, flag):
-        self.smartschool_flags |= flag
-
-    def reset_smartschool_flag(self, flag):
-        self.smartschool_flags &= (Teacher.SS_FLAG_ALL_1_MASK ^ flag)
-
-
+    def set_flag(self, flag, value):
+        if value:
+            self.flags |= flag
+        else:
+            self.flags &= (Person.FLAG_ALL_1_MASK ^ flag)
 
 
+#
+# class Student(db.Model):
+#     __tablename__ = 'students'
+#
+#     FLAG_ALL_1_MASK = (1 << 16) - 1
+#
+#     FLAG_UPDATED =              1 << 0
+#     FLAG_ENABLED =              1 << 1
+#     FLAG_ACTIVE =               1 << 2
+#
+#     id = db.Column(db.Integer(), primary_key=True)
+#     full_name = db.Column(db.String(256))
+#
+#     ad_user_name = db.Column(db.String(256))
+#
+#     rfid_code = db.Column(db.String(256))
+#
+#     ss_user_name = db.Column(db.String(256))
+#     ss_internal_nbr = db.Column(db.String(256))
+#
+#     flags = db.Column(db.Integer(), default=0)
+#
+#     data = db.Column(db.Text)
+#     timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
+#
+#     def set_flag(self, flag, value):
+#         if value:
+#             self.flags |= flag
+#         else:
+#             self.flags &= (Person.FLAG_ALL_1_MASK ^ flag)
+#
+#
+#

@@ -1,6 +1,6 @@
 from app import db, log
 from app.data import utils as mutils
-from app.data.models import Teacher
+from app.data.models import Person
 import json
 
 
@@ -19,8 +19,8 @@ def add_teacher(name=None, user_name=None, badge=None, smartschool_id=None, smar
 def add_bulk_teacher(name=None, user_name=None, badge=None, smartschool_id=None, smartschool_flags=None, data=None,
                      enabled=True):
     try:
-        teacher = Teacher(full_name=name, user_name=user_name, badge_code=badge, smartschool_id=smartschool_id,
-                          smartschool_flags=smartschool_flags, enabled=enabled, data=data)
+        teacher = Person(full_name=name, user_name=user_name, badge_code=badge, smartschool_id=smartschool_id,
+                         smartschool_flags=smartschool_flags, enabled=enabled, data=data)
         db.session.add(teacher)
         return teacher
     except Exception as e:
@@ -81,9 +81,9 @@ def end_update_bulk_teacher():
 
 def get_teachers(enabled=None, first=False):
     try:
-        teachers = Teacher.query
+        teachers = Person.query
         if enabled is not None:
-            teachers = teachers.filter(Teacher.enabled == enabled)
+            teachers = teachers.filter(Person.enabled == enabled)
         if first:
             teacher = teachers.first()
             return teacher

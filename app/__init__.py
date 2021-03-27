@@ -95,6 +95,12 @@ def create_admin():
 
 create_admin() # Only once
 
+
+class CronTaskSequence:
+    SMARTSCHOOL     = 0
+    CARDPRESSO      = 1
+
+
 #decorator to grant access to admins only
 def admin_required(func):
     @wraps(func)

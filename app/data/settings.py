@@ -55,10 +55,23 @@ def get_test_server():
 
 
 default_configuration_settings = {
+    'cron-scheduler-template': ('', Settings.SETTING_TYPE.E_STRING),
+
     'smartschool-scheduler-cron': ('', Settings.SETTING_TYPE.E_STRING),
     'smartschool-teacher-group': ('', Settings.SETTING_TYPE.E_STRING),
     'smartschool-api-url': ('', Settings.SETTING_TYPE.E_STRING),
     'smartschool-api-key': ('', Settings.SETTING_TYPE.E_STRING),
+
+    'smartschool-update-teachers': (False, Settings.SETTING_TYPE.E_BOOL),
+    'smartschool-update-students': (False, Settings.SETTING_TYPE.E_BOOL),
+
+    'cardpresso-scheduler-cron': ('', Settings.SETTING_TYPE.E_STRING),
+    'cardpresso-url': ('', Settings.SETTING_TYPE.E_STRING),
+    'cardpresso-file': ('', Settings.SETTING_TYPE.E_STRING),
+    'cardpresso-login': ('', Settings.SETTING_TYPE.E_STRING),
+    'cardpresso-password': ('', Settings.SETTING_TYPE.E_STRING),
+
+    'cardpresso-update-students': (False, Settings.SETTING_TYPE.E_BOOL),
 }
 
 

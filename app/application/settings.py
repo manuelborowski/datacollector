@@ -20,7 +20,8 @@ def set_setting_topic(settings):
             if 'submit' in container and container['submit']:
                 for key, value in container.items():
                     if key in handle_update_setting:
-                        handle_update_setting[key]['cb'](key, value, handle_update_setting[key]['opaque'])
+                        if handle_update_setting[key]['cb'](key, value, handle_update_setting[key]['opaque']):
+                            msettings.set_configuration_setting(key, value)
                     else:
                         msettings.set_configuration_setting(key, value)
     except Exception as e:
