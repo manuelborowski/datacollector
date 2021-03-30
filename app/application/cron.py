@@ -1,6 +1,6 @@
 from app import ap_scheduler, log
 from app.application import settings as msettings
-import datetime
+import datetime, time
 from apscheduler.triggers.cron import CronTrigger
 
 CRON_TASK = 'datacollector-task'
@@ -53,3 +53,12 @@ def start_job():
 
 start_job()
 
+
+def start_job_now():
+    try:
+        init_job('now')
+        time.sleep(1)
+        cron_template = msettings.get_configuration_setting('cron-scheduler-template')
+        init_job(cron_template)
+    except Exception as e:
+        log.error(f'could not start a cron job now: {e}')

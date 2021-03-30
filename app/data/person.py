@@ -27,7 +27,7 @@ def add_person(full_name=None, ad_user_name=None, rfid_code=None, ss_user_name=N
 def add_bulk_person(full_name=None, ad_user_name=None, rfid_code=None, ss_user_name=None, ss_internal_nbr=None,
                     role=None, data=None):
     try:
-        flags = role | Person.ACTIVE_FLAG | Person.ENABLED_FLAG | Person.UPDATED_FLAG
+        flags = role | Person.ACTIVE_FLAG | Person.ENABLED_FLAG | Person.NEW_FLAG
         person = Person(full_name=full_name,
                         ad_user_name=ad_user_name,
                         rfid_code=rfid_code,
@@ -98,7 +98,18 @@ def end_update_bulk_person():
     return None
 
 
-def get_persons(enabled=None, active=None, updated=None, role=None, first=False, count=False):
+def delete_persons(person=None, persons=None):
+    try:
+        if person:
+            persons = [person]
+        for person in persons:
+            db.session.delete(person)
+        db.session.commit()
+    except Exception as e:
+        mutils.raise_error('could not delete persons', e)
+
+
+def get_persons(enabled=None, active=None, new=None, updated=None, role=None, first=False, count=False):
     try:
         persons = Person.query
         if enabled is not None:
@@ -116,6 +127,11 @@ def get_persons(enabled=None, active=None, updated=None, role=None, first=False,
                 persons = persons.filter(Person.flags.op('&')(Person.UPDATED_FLAG))
             else:
                 persons = persons.filter(~Person.flags.op('&')(Person.UPDATED_FLAG))
+        if new is not None:
+            if new:
+                persons = persons.filter(Person.flags.op('&')(Person.NEW_FLAG))
+            else:
+                persons = persons.filter(~Person.flags.op('&')(Person.NEW_FLAG))
         if role:
             persons = persons.filter(Person.flags.op('&')(role))
         if first:
@@ -131,12 +147,12 @@ def get_persons(enabled=None, active=None, updated=None, role=None, first=False,
     return None
 
 
-def get_first_person(enabled=None, active=None, updated=None, role=None):
-    return get_persons(enabled=enabled,active=active, updated=updated, role=role, first=True)
+def get_first_person(enabled=None, active=None, new=None, updated=None, role=None):
+    return get_persons(enabled=enabled,active=active, new=new, updated=updated, role=role, first=True)
 
 
-def get_person_count(enabled=None, active=None, updated=None, role=None):
-    return get_persons(enabled=enabled,active=active, updated=updated, role=role, count=True)
+def get_person_count(enabled=None, active=None, new=None, updated=None, role=None):
+    return get_persons(enabled=enabled,active=active, new=new, updated=updated, role=role, count=True)
 
 
 def enable_flag(person, value):
@@ -149,6 +165,10 @@ def activate_person(person, value):
 
 def update_flag(person, value):
     person.set_flag(Person.UPDATED_FLAG, value)
+
+
+def new_flag(person, value):
+    person.set_flag(Person.NEW_FLAG, value)
 
 
 # def pre_filter():

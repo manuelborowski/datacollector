@@ -145,15 +145,16 @@ class Person(db.Model):
 
     FLAG_ALL_1_MASK = (1 << 32) - 1
 
-    UPDATED_FLAG =              1 << 0
-    ENABLED_FLAG =              1 << 1 # short term enable/disable of a person
-    ACTIVE_FLAG =               1 << 2 # long term enable/disable of a person
-    IS_TEACHER_FLAG =           1 << 3 # this is an original teacher
-    IS_SUB_TEACHER_FLAG =       1 << 4 # this is a substitute teacher
-    IS_INTERN_TEACHER_FLAG =    1 << 5 # this is an intern teacher
-    IS_DIRECTOR_FLAG =          1 << 6
-    IS_STAFF_FLAG =             1 << 7
-    IS_STUDENT_FLAG =           1 << 8
+    NEW_FLAG =                  1 << 0
+    UPDATED_FLAG =              1 << 1
+    ENABLED_FLAG =              1 << 2 # short term enable/disable of a person
+    ACTIVE_FLAG =               1 << 3 # long term enable/disable of a person
+    IS_TEACHER_FLAG =           1 << 4 # this is an original teacher
+    IS_SUB_TEACHER_FLAG =       1 << 5 # this is a substitute teacher
+    IS_INTERN_TEACHER_FLAG =    1 << 6 # this is an intern teacher
+    IS_DIRECTOR_FLAG =          1 << 7
+    IS_STAFF_FLAG =             1 << 8
+    IS_STUDENT_FLAG =           1 << 9
 
     id = db.Column(db.Integer(), primary_key=True)
     full_name = db.Column(db.String(256))

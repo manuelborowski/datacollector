@@ -16,8 +16,7 @@
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        var data = {{ data | tojson }}
-    </script>
+    {{ super() }}
+    <script>var data = {{ data | tojson }}</script>
     <script type="module"> {% include "settings/settings.js" %}</script>
 {% endblock %}

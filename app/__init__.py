@@ -99,6 +99,8 @@ create_admin() # Only once
 class CronTaskSequence:
     SMARTSCHOOL     = 0
     CARDPRESSO      = 1
+    AD              = 2
+    PAPERCUT        = 3
 
 
 #decorator to grant access to admins only
