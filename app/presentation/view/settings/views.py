@@ -40,6 +40,7 @@ def event_received_cb(msg, client_sid=None):
             ret = mgeneral.clear_database()
         elif event == 'event-populate-database':
             ret = mgeneral.populate_database()
+        ret['message'] = ret['message'].replace('\n', '<br>')
         msocketio.send_to_room({'type': 'event', 'data': ret}, client_sid)
     except Exception as e:
         msocketio.send_to_room({'type': 'event', 'data': {'status': False, 'message': str(e)}}, client_sid)

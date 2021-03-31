@@ -114,12 +114,12 @@ def get_rfids():
                     if person.rfid_code != property:
                         person.rfid_code = property
                         nbr_updated_rfid += 1
-                except:
+                except Exception as e:
                     nbr_user_not_found += 1
-                    log.info(f'get person rfid: person not found: {person.ad_user_name}')
+                    log.info(f'get person rfid: person not found: {person.ad_user_name}, error: {e}')
         mperson.end_update_bulk_person()
         log.info(f'get rfids from papercut: nbr-persons/nbr-updated/nbr-not-found {len(persons)}/{nbr_updated_rfid}/{nbr_user_not_found}')
-        return True
+        return {'status': True, 'message': f'RFIDs from papercut\nnbr: {len(persons)}\nupdated {nbr_updated_rfid}\nnot found {nbr_user_not_found}'}
     except Exception as e:
         log.error('get rfids: error {e}')
-        return False
+        return {'status': False, 'message': f'{e}'}
