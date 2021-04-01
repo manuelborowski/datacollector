@@ -1,6 +1,7 @@
 from app import log
 from app.data import person as mperson
 from app.application import smartschool as msmartschool, papercut as mpapercut, cardpresso as mcardpresso
+from app.application import cron as mcron
 
 
 def clear_database():
@@ -36,3 +37,12 @@ def clear_update_and_new_flags():
         mperson.end_update_bulk_person()
     except Exception as e:
         log.error(f'could not clear update and new flags:{e}')
+
+
+def update_database_now():
+    try:
+        mcron.start_job_now()
+    except Exception as e:
+        log.error(f'could not execute database update:{e}')
+        return {'status': False, 'message': str(e)}
+    return {'status': True, 'message': 'Database update ongoing...'}

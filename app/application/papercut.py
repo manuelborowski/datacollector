@@ -111,8 +111,8 @@ def get_rfids():
             for person in persons:
                 try:
                     property = server.api.getUserProperty(token, person.ad_user_name, PROPERTY_RFID)
-                    if person.rfid_code != property:
-                        person.rfid_code = property
+                    if person.rfid_code != property.upper():
+                        person.rfid_code = property.upper()
                         nbr_updated_rfid += 1
                 except Exception as e:
                     nbr_user_not_found += 1

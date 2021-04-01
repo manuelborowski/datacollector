@@ -148,11 +148,11 @@ def get_persons(enabled=None, active=None, new=None, updated=None, role=None, fi
 
 
 def get_first_person(enabled=None, active=None, new=None, updated=None, role=None):
-    return get_persons(enabled=enabled,active=active, new=new, updated=updated, role=role, first=True)
+    return get_persons(enabled=enabled, active=active, new=new, updated=updated, role=role, first=True)
 
 
 def get_person_count(enabled=None, active=None, new=None, updated=None, role=None):
-    return get_persons(enabled=enabled,active=active, new=new, updated=updated, role=role, count=True)
+    return get_persons(enabled=enabled, active=active, new=new, updated=updated, role=role, count=True)
 
 
 def enable_flag(person, value):
@@ -171,17 +171,27 @@ def new_flag(person, value):
     person.set_flag(Person.NEW_FLAG, value)
 
 
-# def pre_filter():
-#     return Registration.query.join(Timeslot)
-#
-#
-# def format_data(db_list):
-#     out = []
-#     for i in db_list:
-#         em = json.loads(i.data)
-#         em.update(i.ret_datatable())
-#         em['timeslot-date'] = mutils.datetime_to_dutch_datetime_string(em['timeslot-date'])
-#         em['timeslot-meeting-url'] = f'<a href="{em["timeslot-meeting-url"]}" target="_blank">Link naar meeting</a>'
-#         em['row_action'] = f"{i.id}"
-#         out.append(em)
-#     return out
+def pre_filter():
+    return db.session.query(Person)
+
+
+def search_data(search_string):
+    search_constraints = []
+    # search_constraints.append(EndUser.email.like(search_string))
+    # search_constraints.append(EndUser.first_name.like(search_string))
+    # search_constraints.append(EndUser.last_name.like(search_string))
+    # search_constraints.append(EndUser.profile.like(search_string))
+    # search_constraints.append(EndUser.sub_profile.like(search_string))
+    # search_constraints.append(Visit.timeslot.like(search_string))
+    return search_constraints
+
+
+def format_data(db_list):
+    out = []
+    for i in db_list:
+        em = i.data_table()
+        em['row_action'] = f"{i.id}"
+        out.append(em)
+    return out
+
+

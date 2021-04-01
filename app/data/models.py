@@ -156,6 +156,12 @@ class Person(db.Model):
     IS_STAFF_FLAG =             1 << 8
     IS_STUDENT_FLAG =           1 << 9
 
+    ROLE_GROUP = IS_TEACHER_FLAG | IS_STUDENT_FLAG
+    flag_to_role = {
+        IS_TEACHER_FLAG: 'teacher',
+        IS_STUDENT_FLAG: 'student'
+    }
+
     id = db.Column(db.Integer(), primary_key=True)
     full_name = db.Column(db.String(256))
 
@@ -177,37 +183,19 @@ class Person(db.Model):
         else:
             self.flags &= (Person.FLAG_ALL_1_MASK ^ flag)
 
+    def get_role(self):
+        role = self.flags & Person.ROLE_GROUP
+        return Person.flag_to_role[role]
 
-#
-# class Student(db.Model):
-#     __tablename__ = 'students'
-#
-#     FLAG_ALL_1_MASK = (1 << 16) - 1
-#
-#     FLAG_UPDATED =              1 << 0
-#     FLAG_ENABLED =              1 << 1
-#     FLAG_ACTIVE =               1 << 2
-#
-#     id = db.Column(db.Integer(), primary_key=True)
-#     full_name = db.Column(db.String(256))
-#
-#     ad_user_name = db.Column(db.String(256))
-#
-#     rfid_code = db.Column(db.String(256))
-#
-#     ss_user_name = db.Column(db.String(256))
-#     ss_internal_nbr = db.Column(db.String(256))
-#
-#     flags = db.Column(db.Integer(), default=0)
-#
-#     data = db.Column(db.Text)
-#     timestamp = db.Column(db.DateTime(timezone=True), server_default=func.now())
-#
-#     def set_flag(self, flag, value):
-#         if value:
-#             self.flags |= flag
-#         else:
-#             self.flags &= (Person.FLAG_ALL_1_MASK ^ flag)
-#
-#
-#
+    def is_new(self):
+        return bool(self.flags & Person.NEW_FLAG)
+
+    def is_updated(self):
+        return bool(self.flags & Person.UPDATED_FLAG)
+
+    def data_table(self):
+        return {'name': self.full_name, 'ss_user_name': self.ss_user_name, 'ad_user_name': self.ad_user_name,
+                'ss_internal_nbr': self.ss_internal_nbr, 'rfid': self.rfid_code,
+                'role': self.get_role(), 'new': self.is_new(), 'updated': self.is_updated()}
+
+

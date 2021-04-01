@@ -10,7 +10,7 @@ def ajax(table_configuration):
         datatable = format_datatable(data_list, total_count, filtered_count)
     except Exception as e:
         flash_plus(f'Tabel kan niet getoond worden (ajax)', e)
-        datatable =  format_datatable([], 0, 0)
+        datatable = format_datatable([], 0, 0)
     return datatable
 
 

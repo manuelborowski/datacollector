@@ -18,7 +18,7 @@ def init_job(cron_template):
             ap_scheduler.remove_job(CRON_TASK)
         if cron_template == 'now':
             ap_scheduler.add_job(CRON_TASK, cron_task, next_run_time=datetime.datetime.now())
-        else:
+        elif cron_template != '':
             ap_scheduler.add_job(CRON_TASK, cron_task, trigger=CronTrigger.from_crontab(cron_template))
     except Exception as e:
         log.error(f'could not init {CRON_TASK} job: {e}')

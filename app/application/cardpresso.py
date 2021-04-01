@@ -51,12 +51,12 @@ def read_from_cardpresso_database(update_students=False, force_update=False):
                 for line in lines:
                     if str(line[HEADING_STUDENT_ID]) in students_cache:
                         student = students_cache[str(line[HEADING_STUDENT_ID])]
-                        if student.rfid_code != line[HEADING_BADGE]:
-                            student.rfid_code = line[HEADING_BADGE]
+                        if student.rfid_code != line[HEADING_BADGE].upper():
+                            student.rfid_code = line[HEADING_BADGE].upper()
                             mperson.update_flag(student, True)
                             nbr_updated_students += 1
                 mperson.end_update_bulk_person()
-                log.info(f'update from cardpresso database students: updated: {nbr_updated_students}/')
+                log.info(f'update from cardpresso database students: updated: {nbr_updated_students}')
                 shutil.copyfile(local_temp_file, local_file)
     except Exception as e:
         log.eror(f'update from cardpresso database error: {e}')

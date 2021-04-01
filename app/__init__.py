@@ -122,10 +122,11 @@ def supervisor_required(func):
         return func(*args, **kwargs)
     return decorated_view
 
-from app.presentation.view import auth, user, settings, test
+from app.presentation.view import auth, user, settings, test, person
 flask_app.register_blueprint(auth.auth)
 flask_app.register_blueprint(user.user)
 flask_app.register_blueprint(settings.settings)
+flask_app.register_blueprint(person.person)
 
 @flask_app.errorhandler(403)
 def forbidden(error):
