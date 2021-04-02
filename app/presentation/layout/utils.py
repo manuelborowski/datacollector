@@ -50,7 +50,7 @@ def format_datatable(data_list, total_count, filtered_count):
     fml = get_flashed_messages()
     if not not fml:
         output['flash'] = fml
-    return  jsonify(output)
+    return jsonify(output)
 
 
 

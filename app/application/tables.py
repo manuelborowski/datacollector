@@ -55,6 +55,8 @@ def prepare_config_table_for_view(table):
             del out['format_data']
         if 'pre_filter' in out:
             del out['pre_filter']
+        if 'query_filter' in out:
+            del out['query_filter']
         if 'post_processing' in out:
             del out['post_processing']
         if 'search_data' in out:

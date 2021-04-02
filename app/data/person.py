@@ -175,9 +175,27 @@ def pre_filter():
     return db.session.query(Person)
 
 
+def query_filter(query, filter):
+    if 'filter-select-role' in filter:
+        role = filter['filter-select-role']
+        if role == 'teacher':
+            query = query.filter(Person.flags.op('&')(Person.IS_TEACHER_FLAG))
+        elif role == 'student':
+            query = query.filter(Person.flags.op('&')(Person.IS_STUDENT_FLAG))
+    if 'filter-select-state' in filter:
+        state = filter['filter-select-state']
+        if state == 'new':
+            query = query.filter(Person.flags.op('&')(Person.NEW_FLAG))
+        elif state == 'updated':
+            query = query.filter(Person.flags.op('&')(Person.UPDATED_FLAG))
+    return query
+
+
 def search_data(search_string):
     search_constraints = []
-    # search_constraints.append(EndUser.email.like(search_string))
+    search_constraints.append(Person.full_name.like(search_string))
+    search_constraints.append(Person.ss_user_name.like(search_string))
+    search_constraints.append(Person.ad_user_name.like(search_string))
     # search_constraints.append(EndUser.first_name.like(search_string))
     # search_constraints.append(EndUser.last_name.like(search_string))
     # search_constraints.append(EndUser.profile.like(search_string))

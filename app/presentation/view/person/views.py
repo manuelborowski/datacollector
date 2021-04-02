@@ -113,40 +113,6 @@ def table_action():
 #
 #
 #
-table_configuration = {
-    'view': 'person',
-    'title': 'Persons',
-    'buttons': [],
-    'delete_message': u'Do you want to remove this/these person(s)?',
-    'template': [
-        {'name': 'row_action', 'data': 'row_action', 'width': '2%'},
-
-        {'name': 'Name', 'data': 'name', 'order_by': Person.full_name, 'orderable': True},
-        {'name': 'AD username', 'data': 'ad_user_name', 'order_by': Person.ad_user_name, 'orderable': True},
-        {'name': 'SS username', 'data': 'ss_user_name', 'order_by': Person.ss_user_name, 'orderable': True},
-        {'name': 'SS intern', 'data': 'ss_internal_nbr', 'order_by': Person.ss_internal_nbr, 'orderable': True},
-        {'name': 'RFID', 'data': 'rfid', 'order_by': Person.rfid_code, 'orderable': True},
-        {'name': 'Role', 'data': 'role', 'order_by': lambda x: x['role'], 'orderable': True},
-        {'name': 'N', 'data': 'new', 'order_by': lambda x: x['new'], 'orderable': True},
-        {'name': 'U', 'data': 'updated', 'order_by': lambda x: x['updated'], 'orderable': True},
-    ],
-    'filter': [],
-    'item': {
-        # 'edit': {'title': 'Wijzig een reservatie', 'buttons': ['save', 'cancel']},
-        # 'view': {'title': 'Bekijk een reservatie', 'buttons': ['edit', 'cancel']},
-        # 'add': {'title': 'Voeg een reservatie toe', 'buttons': ['save', 'cancel']},
-    },
-    'href': [],
-    'pre_filter': mdperson.pre_filter,
-    'format_data': mdperson.format_data,
-    'search_data': mdperson.search_data,
-    'default_order': (1, 'asc'),
-    # 'socketio_endpoint': 'celledit-person',
-    # 'cell_color': {'supress_cell_content': True, 'color_keys': {'X': 'red', 'O': 'green'}}, #TEST
-    # 'suppress_dom': True,
-
-}
-
 from app.presentation.view import false, true, null
 
 filter_formio = \
@@ -182,7 +148,7 @@ filter_formio = \
                                 "validate": {
                                     "onlyAvailableItems": false
                                 },
-                                "key": "role-select",
+                                "key": "filter-select-role",
                                 "type": "select",
                                 "indexeddb": {
                                     "filter": {}
@@ -200,8 +166,9 @@ filter_formio = \
                     {
                         "components": [
                             {
-                                "label": "Status",
+                                "label": "State",
                                 "tableView": true,
+                                "defaultValue": "all",
                                 "data": {
                                     "values": [
                                         {
@@ -222,7 +189,7 @@ filter_formio = \
                                 "validate": {
                                     "onlyAvailableItems": false
                                 },
-                                "key": "status",
+                                "key": "filter-select-state",
                                 "type": "select",
                                 "indexeddb": {
                                     "filter": {}
@@ -245,3 +212,39 @@ filter_formio = \
             }
         ]
     }
+
+table_configuration = {
+    'view': 'person',
+    'title': 'Persons',
+    'buttons': [],
+    'delete_message': u'Do you want to remove this/these person(s)?',
+    'template': [
+        {'name': 'row_action', 'data': 'row_action', 'width': '2%'},
+
+        {'name': 'Name', 'data': 'name', 'order_by': Person.full_name, 'orderable': True},
+        {'name': 'AD username', 'data': 'ad_user_name', 'order_by': Person.ad_user_name, 'orderable': True},
+        {'name': 'SS username', 'data': 'ss_user_name', 'order_by': Person.ss_user_name, 'orderable': True},
+        {'name': 'SS intern', 'data': 'ss_internal_nbr', 'order_by': Person.ss_internal_nbr, 'orderable': True},
+        {'name': 'RFID', 'data': 'rfid', 'order_by': Person.rfid_code, 'orderable': True},
+        {'name': 'Role', 'data': 'role', 'order_by': lambda x: x['role'], 'orderable': True},
+        {'name': 'N', 'data': 'new', 'order_by': lambda x: x['new'], 'orderable': True},
+        {'name': 'U', 'data': 'updated', 'order_by': lambda x: x['updated'], 'orderable': True},
+    ],
+    'item': {
+        # 'edit': {'title': 'Wijzig een reservatie', 'buttons': ['save', 'cancel']},
+        # 'view': {'title': 'Bekijk een reservatie', 'buttons': ['edit', 'cancel']},
+        # 'add': {'title': 'Voeg een reservatie toe', 'buttons': ['save', 'cancel']},
+    },
+    'href': [],
+    'pre_filter': mdperson.pre_filter,
+    'query_filter': mdperson.query_filter,
+    'search_data': mdperson.search_data,
+    'format_data': mdperson.format_data,
+    'default_order': (1, 'asc'),
+    'filterio': filter_formio,
+    # 'socketio_endpoint': 'celledit-person',
+    # 'cell_color': {'supress_cell_content': True, 'color_keys': {'X': 'red', 'O': 'green'}}, #TEST
+    # 'suppress_dom': True,
+
+}
+

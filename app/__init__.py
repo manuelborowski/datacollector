@@ -14,10 +14,11 @@ flask_app = Flask(__name__, instance_relative_config=True, template_folder='pres
 # V0.1: copy from sulcontactmoment
 # V0.2: smartschool is ok
 # V0.3: update requirements.txt
+# V0.4: populate database
 
 @flask_app.context_processor
 def inject_version():
-    return dict(version='V0.3')
+    return dict(version='V0.4')
 
 #enable logging
 LOG_HANDLE = 'DC'

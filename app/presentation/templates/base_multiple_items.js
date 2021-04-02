@@ -68,36 +68,17 @@ function edit_item() {
 }
 
 $(document).ready(function () {
-    var filter_settings = {}
-
-    //if a filter is changed, then the filter is applied by simulating a click on the filter button
-    $(".table-filter").change(function () {
-        $("#filter").click();
-    });
-    //The filter button of the filter is clicked
-    $('#filter').click(function () {
-        store_filter_settings();
-        table.ajax.reload();
-    });
-
-    //The clear button of the filter is clicked
-    $('#clear').click(function () {
-        for (i = 0; i < filters.length; i++) {
-            $("#" + filters[i].name).val(filters[i].default);
-        }
-        //emulate click on filter button
-        $('#filter').trigger('click');
-    });
-
-    //Store locally in the client-browser
-    function store_filter_settings() {
-        for (i = 0; i < filters.length; i++) {
-            filter_settings[filters[i].name] = $("#" + filters[i].name).val();
-        }
-        localStorage.setItem("Filter", JSON.stringify(filter_settings));
+    let filter_settings = {"filter": {}}
+    if (table_config.filterio) {
+        Formio.createForm(document.getElementById('filter-formio'), table_config.filterio).then((form) => {
+            filter_settings = {"filter": form.submission.data};
+            form.on('change', function(submission) {
+                console.log(submission.data);
+                filter_settings = {"filter": submission.data};
+                table.ajax.reload();
+            })
+        });
     }
-
-    store_filter_settings(); //filters are applied when the page is loaded for the first time
 
     //Bugfix to repeat the table header at the bottom
     $("#datatable").append(
@@ -113,7 +94,6 @@ $(document).ready(function () {
         }
     });
 
-
     var datatable_config = {
         serverSide: true,
         stateSave: true,
@@ -121,7 +101,7 @@ $(document).ready(function () {
             url: Flask.url_for(table_config.table_ajax),
             type: 'POST',
             data: function (d) {
-                return $.extend({}, d, filter_settings);
+                return {"data_table": JSON.stringify($.extend({}, d, filter_settings))};
             }
         },
         pagingType: "full_numbers",

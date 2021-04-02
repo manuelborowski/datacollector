@@ -7,29 +7,7 @@
     <div class="center">
         <h2>{{table_config.title}}</h2>
         <form method="post" id="action_form" enctype=multipart/form-data action="{{url_for(table_config.table_action)}}">
-            {% if filters %}
-                <div class="flex-container">
-                    {% for f in filters %}
-                        {% if f.type == "select" %}
-                            <div class="form-group "><label class="control-label" for="{{f.name}}">{{f.label}}</label>
-                                <select class="form-control table-filter" id="{{f.name}}" name="{{f.name}}">
-                                    {% for o in f.choices %}
-                                    <option value="{{o[0]}}" {% if o[0] == f.default %}selected{% endif %}>{{o[1]}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        {%  endif %}
-                        {% if f.type == "datepicker" %}
-                            <div class="form-group "><label class="control-label" for="{{f.name}}">{{f.label}}</label>
-                                <br><input id="{{f.name}}" name="{{f.name}}" class="table-filter">
-                            </div>
-                        {%  endif %}
-                    {% endfor %}
-                    <a class="btn btn-default hidden" id="filter">Filter</a>
-                    <a class="btn btn-default" id="clear">Herstel</a>
-                </div>
-                <hr class="nice-green-line">
-            {% endif %}
+            <div id="filter-formio"></div>
             {% if table_config.buttons %}
                 <input type="hidden" id="button-pressed" name="button-pressed">
                 {% if 'view' in table_config.buttons %}

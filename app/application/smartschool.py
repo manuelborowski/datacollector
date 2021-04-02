@@ -6,11 +6,11 @@ import datetime
 from zeep import Client
 import json, re
 
-# TEACHERS_GROUP = 'leerkracht'
-TEACHERS_GROUP = 'Klassenraad 3A'
+TEACHERS_GROUP = 'leerkracht'
+# TEACHERS_GROUP = 'Klassenraad 3A'
 
-# STUDENTS_GROUP = 'leerlingen'
-STUDENTS_GROUP = '3ORb (1 en 2)'
+STUDENTS_GROUP = 'leerlingen'
+# STUDENTS_GROUP = '3ORb (1 en 2)'
 
 # leerkracht 0
 # leerling 1
